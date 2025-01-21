@@ -1,0 +1,11 @@
+[package]
+name = "fastborsh"
+version = { workspace = true }
+edition = { workspace = true }
+
+[dependencies]
+fastborsh-core = { path = "../fastborsh-core" }
+fastborsh-derive = { path = "../fastborsh-derive" }
+
+[dev-dependencies]
+borsh = { workspace = true, features = ["derive"] }
