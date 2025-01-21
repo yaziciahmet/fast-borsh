@@ -13,13 +13,13 @@ pub(crate) fn fast_serialize_derive(input: TokenStream) -> TokenStream {
             Fields::Unnamed(ref fields) => &fields.unnamed,
             Fields::Unit => {
                 return TokenStream::from(quote! {
-                    compile_error!("FastSerialize cannot be derived for unit structs.");
+                    compile_error!("FastBorshSerialize cannot be derived for unit structs.");
                 });
             }
         },
         _ => {
             return TokenStream::from(quote! {
-                compile_error!("FastSerialize can only be derived for structs.");
+                compile_error!("FastBorshSerialize can only be derived for structs.");
             });
         }
     };
@@ -27,12 +27,12 @@ pub(crate) fn fast_serialize_derive(input: TokenStream) -> TokenStream {
     // Generate SIZE computation
     let size_expr = fields.iter().map(|field| {
         let ty = &field.ty;
-        quote! { <#ty as FastSerialize>::SIZE }
+        quote! { <#ty as FastBorshSerialize>::SIZE }
     });
 
     // Generate the implementation
     let expanded = quote! {
-        impl FastSerialize for #struct_name {
+        impl FastBorshSerialize for #struct_name {
             const SIZE: usize = 0 #(+ #size_expr)*;
         }
     };

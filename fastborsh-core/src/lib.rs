@@ -3,7 +3,7 @@
 
 use borsh::BorshSerialize;
 
-pub trait FastSerialize: BorshSerialize {
+pub trait FastBorshSerialize: BorshSerialize {
     const SIZE: usize;
 
     fn fast_serialize(&self) -> [u8; Self::SIZE] {
@@ -14,14 +14,14 @@ pub trait FastSerialize: BorshSerialize {
     }
 }
 
-impl FastSerialize for u32 {
+impl FastBorshSerialize for u32 {
     const SIZE: usize = 4;
 }
 
-impl FastSerialize for u64 {
+impl FastBorshSerialize for u64 {
     const SIZE: usize = 8;
 }
 
-impl FastSerialize for [u8; 32] {
+impl FastBorshSerialize for [u8; 32] {
     const SIZE: usize = 32;
 }
