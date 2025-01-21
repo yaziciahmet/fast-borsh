@@ -30,36 +30,10 @@ pub(crate) fn fast_serialize_derive(input: TokenStream) -> TokenStream {
         quote! { <#ty as FastSerialize>::SIZE }
     });
 
-    // Generate serialization logic
-    let serialize_body = fields.iter().enumerate().map(|(index, field)| {
-        let ty = &field.ty;
-        let field_access = match &field.ident {
-            Some(ident) => quote! { self.#ident },
-            None => {
-                let idx = syn::Index::from(index);
-                quote! { self.#idx }
-            }
-        };
-        quote! {
-            {
-                let serialized = #field_access.fast_serialize();
-                buf[offset..offset + <#ty as FastSerialize>::SIZE].copy_from_slice(&serialized);
-                offset += <#ty as FastSerialize>::SIZE;
-            }
-        }
-    });
-
     // Generate the implementation
     let expanded = quote! {
         impl FastSerialize for #struct_name {
             const SIZE: usize = 0 #(+ #size_expr)*;
-
-            fn fast_serialize(&self) -> [u8; Self::SIZE] {
-                let mut buf = [0u8; Self::SIZE];
-                let mut offset = 0;
-                #(#serialize_body)*
-                buf
-            }
         }
     };
 
