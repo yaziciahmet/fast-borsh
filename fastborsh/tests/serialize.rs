@@ -12,7 +12,6 @@ struct Stack {
 //     const SIZE: usize = u32::SIZE + u64::SIZE + <[u8; 32] as FastSerialize>::SIZE;
 // }
 
-
 #[test]
 fn t() {
     let s = Stack::default();
