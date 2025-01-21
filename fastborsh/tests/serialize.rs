@@ -27,11 +27,11 @@ fn t() {
     for _ in 0..n {
         s.fast_serialize();
     }
-    println!("elapsed: {}", start.elapsed().as_micros());
+    println!("elapsed fast: {}", start.elapsed().as_micros());
 
     let start = std::time::Instant::now();
     for _ in 0..n {
         borsh::to_vec(&s).unwrap();
     }
-    println!("elapsed: {}", start.elapsed().as_micros());
+    println!("elapsed borsh: {}", start.elapsed().as_micros());
 }
