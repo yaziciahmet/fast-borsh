@@ -1,15 +1,15 @@
 use borsh::BorshSerialize;
-use fastborsh::FastSerialize;
+use fastborsh::FastBorshSerialize;
 
-#[derive(BorshSerialize, Default, FastSerialize)]
+#[derive(BorshSerialize, Default, FastBorshSerialize)]
 struct Stack {
     a: u32,
     b: u64,
     c: [u8; 32],
 }
 
-// impl FastSerialize for Stack {
-//     const SIZE: usize = u32::SIZE + u64::SIZE + <[u8; 32] as FastSerialize>::SIZE;
+// impl FastBorshSerialize for Stack {
+//     const SIZE: usize = u32::SIZE + u64::SIZE + <[u8; 32] as FastBorshSerialize>::SIZE;
 // }
 
 #[test]
