@@ -2,7 +2,7 @@ use borsh::BorshSerialize;
 use fastborsh::{BorshSize, FastBorshSerialize};
 
 #[derive(Default, BorshSerialize, BorshSize)]
-struct Stack {
+struct Struck {
     a: u32,
     b: u64,
     c: [u8; 32],
@@ -11,7 +11,7 @@ struct Stack {
 
 #[test]
 fn t() {
-    let mut s = Stack::default();
+    let mut s = Struck::default();
     s.d = vec![5; 900];
     let r1 = borsh::to_vec(&s).unwrap();
     let r2 = s.fast_serialize();
