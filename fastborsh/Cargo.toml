@@ -9,3 +9,9 @@ fastborsh-derive = { path = "../fastborsh-derive" }
 
 [dev-dependencies]
 borsh = { workspace = true, features = ["derive"] }
+
+divan = "0.1.17"
+
+[[bench]]
+name = "borsh"
+harness = false
