@@ -16,7 +16,7 @@ fn fast(bencher: Bencher, n: usize) {
     s.d = vec![5; n];
 
     bencher.bench(|| {
-        black_box(s.fast_serialize());
+        black_box(black_box(&s).fast_serialize());
     });
 }
 
@@ -26,7 +26,7 @@ fn borsh(bencher: Bencher, n: usize) {
     s.d = vec![5; n];
 
     bencher.bench(|| {
-        borsh::to_vec(&s).unwrap();
+        black_box(borsh::to_vec(black_box(&s)).unwrap());
     });
 }
 
