@@ -166,6 +166,22 @@ impl<T: BorshSize + Sized> BorshSize for RefCell<T> {
     }
 }
 
+#[cfg(feature = "rc")]
+impl<T: BorshSize + ?Sized> BorshSize for std::rc::Rc<T> {
+    #[inline(always)]
+    fn borsh_size(&self) -> usize {
+        (**self).borsh_size()
+    }
+}
+
+#[cfg(feature = "rc")]
+impl<T: BorshSize + ?Sized> BorshSize for std::sync::Arc<T> {
+    #[inline(always)]
+    fn borsh_size(&self) -> usize {
+        (**self).borsh_size()
+    }
+}
+
 impl<T: ?Sized> BorshSize for PhantomData<T> {
     #[inline(always)]
     fn borsh_size(&self) -> usize {
