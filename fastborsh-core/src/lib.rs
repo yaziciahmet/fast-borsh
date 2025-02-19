@@ -1,4 +1,4 @@
-use std::collections::VecDeque;
+use std::{borrow::Cow, collections::VecDeque};
 
 use borsh::BorshSerialize;
 
@@ -128,5 +128,19 @@ impl<T: BorshSize, E: BorshSize> BorshSize for Result<T, E> {
             Err(e) => e.borsh_size(),
         };
         1 + inner_size
+    }
+}
+
+impl<T: BorshSize + ?Sized> BorshSize for Box<T> {
+    #[inline(always)]
+    fn borsh_size(&self) -> usize {
+        self.as_ref().borsh_size()    
+    }
+}
+
+impl<T: BorshSize + ToOwned + ?Sized> BorshSize for Cow<'_, T> {
+    #[inline(always)]
+    fn borsh_size(&self) -> usize {
+        self.as_ref().borsh_size()    
     }
 }
