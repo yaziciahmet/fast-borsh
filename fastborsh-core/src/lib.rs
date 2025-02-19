@@ -71,10 +71,10 @@ impl<T: BorshSize> BorshSize for [T] {
     }
 }
 
-impl<T: BorshSize> BorshSize for &T {
+impl<T: BorshSize + ?Sized> BorshSize for &T {
     #[inline(always)]
     fn borsh_size(&self) -> usize {
-        (**self).borsh_size()
+        (*self).borsh_size()
     }
 }
 
