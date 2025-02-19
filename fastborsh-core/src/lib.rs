@@ -1,4 +1,9 @@
-use std::{borrow::Cow, collections::VecDeque, marker::PhantomData};
+use std::{
+    borrow::Cow,
+    cell::{Cell, RefCell},
+    collections::VecDeque,
+    marker::PhantomData,
+};
 
 use borsh::BorshSerialize;
 
@@ -142,6 +147,22 @@ impl<T: BorshSize + ToOwned + ?Sized> BorshSize for Cow<'_, T> {
     #[inline(always)]
     fn borsh_size(&self) -> usize {
         self.as_ref().borsh_size()
+    }
+}
+
+impl<T: BorshSize + Copy> BorshSize for Cell<T> {
+    #[inline(always)]
+    fn borsh_size(&self) -> usize {
+        self.get().borsh_size()
+    }
+}
+
+impl<T: BorshSize + Sized> BorshSize for RefCell<T> {
+    #[inline(always)]
+    fn borsh_size(&self) -> usize {
+        self.try_borrow()
+            .expect("RefCell already borrowed mutably while trying to serialize")
+            .borsh_size()
     }
 }
 
