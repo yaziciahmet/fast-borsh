@@ -8,13 +8,15 @@ struct Struck {
     c: [u8; 32],
     d: Vec<u8>,
     e: Vec<Option<[u8; 32]>>,
+    f: String,
 }
 
 #[test]
 fn t() {
     let mut s = Struck::default();
     s.d = vec![5; 900];
-    s.e = vec![None; 2000];
+    s.e = vec![None; 1000];
+    s.f = "basbadfasdfsdfasdf".to_string();
     let r1 = borsh::to_vec(&s).unwrap();
     let r2 = s.fast_serialize();
     assert_eq!(r1, r2);

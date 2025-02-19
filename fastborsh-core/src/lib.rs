@@ -45,6 +45,8 @@ impl_const_borsh_size!(i128, 16);
 impl_const_borsh_size!(f32, 4);
 impl_const_borsh_size!(f64, 8);
 
+impl_const_borsh_size!(bool, 1);
+
 impl<T: BorshSize> BorshSize for Vec<T> {
     #[inline(always)]
     fn borsh_size(&self) -> usize {
@@ -90,6 +92,20 @@ impl<T: BorshSize, const N: usize> BorshSize for [T; N] {
             }
             size
         }
+    }
+}
+
+impl BorshSize for str {
+    #[inline(always)]
+    fn borsh_size(&self) -> usize {
+        self.as_bytes().borsh_size()
+    }
+}
+
+impl BorshSize for String {
+    #[inline(always)]
+    fn borsh_size(&self) -> usize {
+        self.as_bytes().borsh_size()
     }
 }
 
