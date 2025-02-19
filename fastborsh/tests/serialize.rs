@@ -9,6 +9,7 @@ struct Struck {
     d: Vec<u8>,
     e: Vec<Option<[u8; 32]>>,
     f: String,
+    tup: (u8, u64, u128, u128, u128),
 }
 
 #[test]
