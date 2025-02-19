@@ -44,4 +44,3 @@ pub fn derive_borsh_size(input: TokenStream) -> TokenStream {
 
     TokenStream::from(expanded)
 }
-

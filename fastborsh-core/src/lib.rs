@@ -5,16 +5,13 @@ use borsh::BorshSerialize;
 pub trait FastBorshSerialize: BorshSerialize + BorshSize {
     fn fast_serialize(&self) -> Vec<u8> {
         let mut buf = Vec::with_capacity(self.borsh_size());
-        self.serialize(&mut buf).expect("Serialization must not fail");
+        self.serialize(&mut buf)
+            .expect("Serialization must not fail");
         buf
     }
 }
 
-impl<T> FastBorshSerialize for T
-where
-    T: BorshSerialize + BorshSize
-{
-}
+impl<T> FastBorshSerialize for T where T: BorshSerialize + BorshSize {}
 
 pub trait BorshSize {
     fn borsh_size(&self) -> usize;
