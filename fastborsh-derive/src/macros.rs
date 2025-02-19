@@ -12,14 +12,14 @@ pub fn derive_borsh_size(input: TokenStream) -> TokenStream {
             Fields::Named(ref fields) => {
                 let field_sizes = fields.named.iter().map(|field| {
                     let field_name = &field.ident;
-                    quote! { self.#field_name.borsh_size() }
+                    quote! { BorshSize::borsh_size(&self.#field_name) }
                 });
                 quote! { 0 #(+ #field_sizes)* }
             }
             Fields::Unnamed(ref fields) => {
                 let field_sizes = fields.unnamed.iter().enumerate().map(|(i, _)| {
                     let index = syn::Index::from(i);
-                    quote! { self.#index.borsh_size() }
+                    quote! { BorshSize::borsh_size(&self.#index) }
                 });
                 quote! { 0 #(+ #field_sizes)* }
             }
