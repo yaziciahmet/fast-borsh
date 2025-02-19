@@ -84,7 +84,11 @@ impl<T: BorshSize, const N: usize> BorshSize for [T; N] {
         if N == 0 {
             0
         } else {
-            self.as_slice().borsh_size()
+            let mut size = 0;
+            for el in self.iter() {
+                size += el.borsh_size();
+            }
+            size
         }
     }
 }
