@@ -9,3 +9,7 @@ fastborsh-derive = { path = "../fastborsh-derive" }
 
 [dev-dependencies]
 borsh = { workspace = true, features = ["derive"] }
+
+[features]
+default = []
+rc = ["fastborsh-core/rc"]
