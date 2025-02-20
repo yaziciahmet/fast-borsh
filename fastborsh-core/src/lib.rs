@@ -1,7 +1,7 @@
 use std::{
     borrow::Cow,
     cell::{Cell, RefCell},
-    collections::VecDeque,
+    collections::{BTreeMap, VecDeque},
     marker::PhantomData,
 };
 
@@ -111,6 +111,17 @@ impl BorshSize for String {
     #[inline(always)]
     fn borsh_size(&self) -> usize {
         self.as_bytes().borsh_size()
+    }
+}
+
+impl<K: BorshSize, V: BorshSize> BorshSize for BTreeMap<K, V> {
+    fn borsh_size(&self) -> usize {
+        let mut size = 4;
+        for (k, v) in self.iter() {
+            size += k.borsh_size();
+            size += v.borsh_size();
+        }
+        size
     }
 }
 
